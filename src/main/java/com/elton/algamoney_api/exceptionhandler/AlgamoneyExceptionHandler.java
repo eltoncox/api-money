@@ -1,6 +1,5 @@
 package com.elton.algamoney_api.exceptionhandler;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +50,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ EmptyResultDataAccessException.class })
     public ResponseEntity<Object> handleEmptyResultDataAccessException(
                                 EmptyResultDataAccessException ex, WebRequest request) {
-        
+
         String mensagemUsuario = messageSource.getMessage(
                 "recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ex.toString();
