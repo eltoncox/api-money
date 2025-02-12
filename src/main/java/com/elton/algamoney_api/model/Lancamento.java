@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "lancamento")
-public class Lancamento {
+public class Lancamento { // 5.6. Regra para não salvar pessoa inativa
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
