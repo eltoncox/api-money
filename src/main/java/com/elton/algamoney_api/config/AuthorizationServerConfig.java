@@ -14,28 +14,35 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserDetailsService userDetailsService;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("angular")
-                .secret(passwordEncoder.encode("@ngul@r0")) // Senha do cliente
+                .secret("$2a$10$UAc049fUm6Bxy8X/.mpn8.PfD2ncb4ZgvmEa5Hb.JOGVJNX1ampgG") // @ngul@r0
                 .scopes("read", "write")
-                .authorizedGrantTypes("password", "refresh_token") // Tipos de concessão
-                .accessTokenValiditySeconds(20) // Validade do token de acesso (30 minutos)
-                .refreshTokenValiditySeconds(3600 * 24); // Validade do refresh token (24 horas)
+                .authorizedGrantTypes("password", "refresh_token")
+                .accessTokenValiditySeconds(1800)
+                .refreshTokenValiditySeconds(3600 * 24)
+                .and()
+                .withClient("mobile")
+                .secret(passwordEncoder.encode("m0b1le")) // Forma insegura
+                .scopes("read")
+                .authorizedGrantTypes("password", "refresh_token")
+                .accessTokenValiditySeconds(1800)
+                .refreshTokenValiditySeconds(3600 * 24);
     }
 
     @Override
@@ -51,7 +58,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        accessTokenConverter.setSigningKey("3032885ba9cd6621bcc4e7d6b6c35c2b3032885ba9cd6621"); // Chave secreta para assinar o token
+
+        accessTokenConverter.setSigningKey("3032885ba9cd6621bcc4e7d6b6c35c2b");
+
         return accessTokenConverter;
     }
 
@@ -59,4 +68,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
-}// configurando JWT no projeto
+}
