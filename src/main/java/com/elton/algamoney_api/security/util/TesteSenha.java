@@ -5,10 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class TesteSenha {
     public static void main(String[] args) {
         // Senha fornecida pelo usuário
-        String rawPassword = "elton7";
+        String rawPassword = "admin";
 
         // Senha codificada (copiada do banco de dados)
-        String encodedPassword = "$2a$10$Fa4fRSs231Xk3lmlRvjm4uTJ7ucDASszf/hLqjzq5MrUgQo/VF83.";
+        String encodedPassword = "$2a$10$X607ZPhQ4EgGNaYKt3n4SONjIv9zc.VMWdEuhCuba7oLAL5IvcL5.";
 
         // Cria uma instância do BCryptPasswordEncoder
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
